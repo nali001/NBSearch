@@ -234,11 +234,11 @@ def preprocessing(path):
     df_predict_rows = df_nb_non_empty_function_body
     train_func_raw = df_train_rows.original_cell_no_comments.tolist()
     train_cmts_raw = df_train_rows.conc_comment.tolist()
-    df_train_rows.to_csv(os.getcwd() + '/data/train_rows.csv')
-    df_predict_rows.to_csv(os.getcwd() + '/data/predict_rows.csv')
+    df_train_rows.to_csv(os.getcwd() + '../data/train_rows.csv')
+    df_predict_rows.to_csv(os.getcwd() + '../data/predict_rows.csv')
     df_train_rows, df_test_rows = train_test_split(df_train_rows, test_size=.10)
 
-    df_test_rows.to_csv(os.getcwd() + '/data/df_test_rows.csv')
+    df_test_rows.to_csv(os.getcwd() + '../data/df_test_rows.csv')
     # preview output of first element
     func_pp = processor(keep_n=8000, padding_maxlen=100)
     train_func_vecs = func_pp.fit_transform(train_func_raw)
@@ -246,22 +246,22 @@ def preprocessing(path):
                             padding_maxlen=20, padding='post')
     train_comments_vecs = comments_pp.fit_transform(train_cmts_raw)
     # Save preprocessors
-    with open(os.getcwd() + '/data/cell_pp.dpkl', 'wb') as f:
+    with open(os.getcwd() + '../data/cell_pp.dpkl', 'wb') as f:
         dpickle.dump(func_pp, f)
-    with open(os.getcwd() + '/data/comments_pp.dpkl', 'wb') as f:
+    with open(os.getcwd() + '../data/comments_pp.dpkl', 'wb') as f:
         dpickle.dump(comments_pp, f)
 
     # Save the processed data
-    np.save(os.getcwd() + '/data/train_comments_vecs.npy', train_comments_vecs)
-    np.save(os.getcwd() + '/data/train_cell_vecs.npy', train_func_vecs)
+    np.save(os.getcwd() + '../data/train_comments_vecs.npy', train_comments_vecs)
+    np.save(os.getcwd() + '../data/train_cell_vecs.npy', train_func_vecs)
     print("Finish processing data")
 
 def preprocess_language_model_data():
     """
     Preprocess notebooks data for doc2vec model.
     """
-    predicted = pd.read_csv(os.getcwd() + '/data/train_rows.csv')
-    f= open(os.getcwd() + '/data/corpus.txt',"w+")
+    predicted = pd.read_csv(os.getcwd() + '../data/train_rows.csv')
+    f= open(os.getcwd() + '../data/corpus.txt',"w+")
     for index, row in predicted.iterrows():
         f.write(row['conc_comment'] + '\n')
     f.close()
