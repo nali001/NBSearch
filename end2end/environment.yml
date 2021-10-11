@@ -1,4 +1,4 @@
-name: nlp
+name: nbsearch
 channels:
   - defaults
 dependencies:
@@ -124,5 +124,3 @@ dependencies:
     - werkzeug==1.0.1
     - wrapt==1.12.1
     - zipp==3.1.0
-prefix: /home/y2587wan/miniconda3/envs/nlp
-
