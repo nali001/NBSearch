@@ -259,11 +259,11 @@ class Seq2Seq_Inference(object):
 class Seq2SeqModel(object):
     def __init__(self, model_option='gru'):
         # from seq2seq_utils import load_decoder_inputs, load_encoder_inputs, load_text_processor
-        self.encoder_input_data, self.doc_length = load_encoder_inputs(os.getcwd() + '../data/train_cell_vecs.npy')
+        self.encoder_input_data, self.doc_length = load_encoder_inputs(os.getcwd() + '/data/train_cell_vecs.npy')
         self.decoder_input_data, self.decoder_target_data = load_decoder_inputs(
-            os.getcwd() + '../data/train_comments_vecs.npy')
-        self.num_encoder_tokens, self.cell_pp = load_text_processor(os.getcwd() + '../data/cell_pp.dpkl')
-        self.num_decoder_tokens, self.comments_pp = load_text_processor(os.getcwd() + '../data/comments_pp.dpkl')
+            os.getcwd() + '/data/train_comments_vecs.npy')
+        self.num_encoder_tokens, self.cell_pp = load_text_processor(os.getcwd() + '/data/cell_pp.dpkl')
+        self.num_decoder_tokens, self.comments_pp = load_text_processor(os.getcwd() + '/data/comments_pp.dpkl')
         self.model_option = model_option.lower()
 
     def create_model(self):
@@ -353,7 +353,7 @@ class Seq2SeqModel(object):
                                  validation_split=0.12, callbacks=[csv_logger, model_checkpoint])
         self.model.save(os.getcwd()+'/' + self.model_option + '_seq2seq_model.h5')
 
-    def predict_seq2seq_model(self, filename='../data/final_comments.csv'):
+    def predict_seq2seq_model(self, filename='/data/final_comments.csv'):
         seq2seq_model = tf.keras.models.load_model(os.getcwd()+'/' + self.model_option + '_seq2seq_model.h5')
         seq2seq_inf = Seq2Seq_Inference(encoder_preprocessor=self.cell_pp,
                                         decoder_preprocessor=self.comments_pp,
@@ -362,7 +362,7 @@ class Seq2SeqModel(object):
         logger = logging.getLogger()
         logger.setLevel(logging.WARNING)
         start_time = time.time()
-        predict_rows = pd.read_csv(os.getcwd() + '../data/predict_rows.csv')
+        predict_rows = pd.read_csv(os.getcwd() + '/data/predict_rows.csv')
         nums = predict_rows.shape[0]
         print("--- Predict %s ---" % self.model_option)
         pre = 0
@@ -388,7 +388,7 @@ class Seq2SeqModel(object):
         final_ans_no_false_prediction['conc_cell'] = final_ans_no_false_prediction['cells'].apply(get_cell_in_string)
         final_ans_no_false_prediction.to_csv(os.getcwd() + filename, index=False)
 
-    def evaluate_seq2seq_model(self, nums=0):
+    def evaluate_seq2seq_model(self, nums=0, model_option=self.model_option):
         seq2seq_model = tf.keras.models.load_model(os.getcwd()+'/' + self.model_option + '_seq2seq_model.h5')
         seq2seq_inf = Seq2Seq_Inference(encoder_preprocessor=self.cell_pp,
                                         decoder_preprocessor=self.comments_pp,
@@ -397,9 +397,9 @@ class Seq2SeqModel(object):
         logger = logging.getLogger()
         logger.setLevel(logging.WARNING)
         start_time = time.time()
-        df_test_rows = pd.read_csv(os.getcwd() + '../data/df_test_rows.csv')
+        df_test_rows = pd.read_csv(os.getcwd() + '/data/df_test_rows.csv')
         nums = df_test_rows.shape[0] if nums == 0 else nums
-        print("--- Test %s ---" % model_option)
+        print(f'--- Test {model_option} --- ')
         pre = 0
         for i in range(nums):
             process = int(i * 100 / nums)
@@ -408,10 +408,10 @@ class Seq2SeqModel(object):
                 print('Complete process ' + str(process) + " percent in %s seconds" % (time.time() - start_time))
             _, df_test_rows.loc[i, 'pred_comments'] = seq2seq_inf.generate_comments(
                 df_test_rows.loc[i, 'original_cell_no_comments'])
-        df_test_rows.to_csv(os.getcwd() + '../data/Seq2Seq_pred_comments.csv', index=False)
+        df_test_rows.to_csv(os.getcwd() + '/data/Seq2Seq_pred_comments.csv', index=False)
         print("--- %s seconds ---" % (time.time() - start_time))
 
-        pred_csv = pd.read_csv(os.getcwd() + '../data/Seq2Seq_pred_comments.csv')
+        pred_csv = pd.read_csv(os.getcwd() + '/data/Seq2Seq_pred_comments.csv')
         pred_csv = pred_csv.dropna()
         original_com = pred_csv['conc_comment'].tolist()
         pred_com = pred_csv['pred_comments'].tolist()

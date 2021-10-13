@@ -15,7 +15,7 @@ for option in options:
     model.evaluate_model(nums=0,model_option=option)
     
 model = Seq2SeqModel(model_option='bilstm')
-model.predict_seq2seq_model(filename='../data/final_comments.csv')
+model.predict_seq2seq_model(filename='data/final_comments.csv')
 
 preprocess_language_model_data()
 train_doc2vec(vector_size=300, epochs=40)
