@@ -388,7 +388,7 @@ class Seq2SeqModel(object):
         final_ans_no_false_prediction['conc_cell'] = final_ans_no_false_prediction['cells'].apply(get_cell_in_string)
         final_ans_no_false_prediction.to_csv(os.getcwd() + filename, index=False)
 
-    def evaluate_seq2seq_model(self, nums=0, model_option=self.model_option):
+    def evaluate_seq2seq_model(self, nums=0):
         seq2seq_model = tf.keras.models.load_model(os.getcwd()+'/' + self.model_option + '_seq2seq_model.h5')
         seq2seq_inf = Seq2Seq_Inference(encoder_preprocessor=self.cell_pp,
                                         decoder_preprocessor=self.comments_pp,
@@ -399,11 +399,14 @@ class Seq2SeqModel(object):
         start_time = time.time()
         df_test_rows = pd.read_csv(os.getcwd() + '/data/df_test_rows.csv')
         nums = df_test_rows.shape[0] if nums == 0 else nums
-        print(f'--- Test {model_option} --- ')
+        print(f'--- Test {self.model_option} --- ')
         pre = 0
         for i in range(nums):
             process = int(i * 100 / nums)
-            if process % 10 == 0 and not pre == process:
+            print(process)
+            # if process % 1 == 0 and not pre == process:
+            if process % 1 == 0:
+
                 pre = process
                 print('Complete process ' + str(process) + " percent in %s seconds" % (time.time() - start_time))
             _, df_test_rows.loc[i, 'pred_comments'] = seq2seq_inf.generate_comments(
