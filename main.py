@@ -1,2 +1,2 @@
-from nbtest import doc2vec_test
-doc2vec_test()
+from nbtest import preprocessing_test
+preprocessing_test()

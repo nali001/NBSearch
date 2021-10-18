@@ -1,8 +1,12 @@
+# This script is dedicated to test modules in the NBSearch project 
 from end2end.doc2vec import train_doc2vec
 from end2end.seq2seq import Seq2SeqModel
-from end2end.preprocess import preprocess_language_model_data
+from end2end.preprocessv2 import preprocessing, preprocess_language_model_data
 
 def train_test():
+    ''' Test the traing process of translation models. 
+    The amount of epochs is set to be 1 to save time. 
+    '''
     options = ['bilstm'] #, 'gru', 'lstm', 'lstmattention']
     for option in options:
         model = Seq2SeqModel(model_option=option)
@@ -21,9 +25,19 @@ def evaluate_test():
     pass
 
 def doc2vec_test():
-    ''' Test the 
+    ''' Test the language models. 
     Report:
         Test passed. ~2mins
     '''
     train_doc2vec()
+
+def preprocessing_test():
+    ''' Test the preprocessing part. 
+    Report: 
+
+    '''
+    path = 'testdata/notebooks/'
+    out_path = 'testdata'
+    preprocessing(path, out_path)
+
 
