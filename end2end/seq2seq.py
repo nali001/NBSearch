@@ -398,6 +398,8 @@ class Seq2SeqModel(object):
         logger.setLevel(logging.WARNING)
         start_time = time.time()
         df_test_rows = pd.read_csv(os.getcwd() + '/data/df_test_rows.csv')
+        
+        # Set the number of evaluated samples to df_test_rows.shape[0] if not specified. 
         nums = df_test_rows.shape[0] if nums == 0 else nums
         print(f'--- Test {self.model_option} --- ')
         pre = 0
