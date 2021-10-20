@@ -255,13 +255,20 @@ def preprocessing(path, out_path):
     train_func_raw = df_train_rows.original_cell_no_comments.tolist()
     train_cmts_raw = df_train_rows.conc_comment.tolist()
     
-    # Save the filtered codes and commands to files
-    df_train_rows.to_csv(os.getcwd() + '/' + out_path + '/train_rows.csv')
-    df_predict_rows.to_csv(os.getcwd() + '/' + out_path + '/predict_rows.csv')
-    df_train_rows, df_test_rows = train_test_split(df_train_rows, test_size=.10)
+    # # Save the filtered codes and commands to csv files
+    # df_train_rows.to_csv(os.getcwd() + '/' + out_path + '/train_rows.csv')
+    # df_predict_rows.to_csv(os.getcwd() + '/' + out_path + '/predict_rows.csv')
+    # df_train_rows, df_test_rows = train_test_split(df_train_rows, test_size=.10)
+    # df_test_rows.to_csv(os.getcwd() + '/' + out_path + '/df_test_rows.csv')
 
-    df_test_rows.to_csv(os.getcwd() + '/' + out_path + '/df_test_rows.csv')
+
+    # Save the filtered codes and commands to excel files
+    df_train_rows.to_excel(os.getcwd() + '/' + out_path + '/train_rows.xlsx')
+    df_predict_rows.to_excel(os.getcwd() + '/' + out_path + '/predict_rows.xlsx')
+    df_train_rows, df_test_rows = train_test_split(df_train_rows, test_size=.10)
+    df_test_rows.to_excel(os.getcwd() + '/' + out_path + '/df_test_rows.xlsx')
     
+
     # preview output of first element
     func_pp = processor(keep_n=8000, padding_maxlen=100)
     train_func_vecs = func_pp.fit_transform(train_func_raw)

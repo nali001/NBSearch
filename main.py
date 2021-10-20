@@ -1,2 +1,4 @@
-from nbtest import preprocessing_test
-preprocessing_test()
+# mian.py is just a program entry and nothing else. 
+# It creates a PWD that is under the root directory of the project, i.e., NbSearch/
+from nbtest import predict_test
+predict_test()
