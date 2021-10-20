@@ -46,6 +46,15 @@ The main entry point for the program. It creates a PWD that is under the root di
 
 ## nbtest.py
 This script contains tests for all the modules within this project.
+
+
+# Resource distribution
+The following diagram shows the resource distribution structure of this project. 
+![](readme/resource_distribution.png)
+In this case, 
++ Github: end2end, frontend, readme, others
++ surfdrive: resource, data, config
+
  \
  \
  \
